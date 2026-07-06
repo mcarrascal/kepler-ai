@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kepler AI — Asistentes de IA que responden, califican y agendan por vos</title>
+  <meta name="description" content="Kepler AI implementa asistentes de inteligencia artificial en WhatsApp, Instagram y tu sitio web para responder consultas, calificar clientes y agendar reuniones, las 24 horas.">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+
+  <link rel="stylesheet" href="styles.css?v=20260706c">
+</head>
+<body>
+  <a href="#main" class="skip-link">Saltar al contenido</a>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor" data-cursor-root aria-hidden="true">
+    <span class="cursor-dot"></span>
+    <span class="cursor-ring"></span>
+  </div>
+
+  <!-- Vertical scroll progress — shows start/end of the page -->
+  <div class="scroll-progress-v" aria-hidden="true">
+    <span class="scroll-progress-v-dot is-start"></span>
+    <span class="scroll-progress-v-track"></span>
+    <span class="scroll-progress-v-fill" data-scroll-progress-v-fill></span>
+    <span class="scroll-progress-v-dot is-end"></span>
+  </div>
+
+  <!-- Fixed WhatsApp button -->
+  <a class="wa-float" href="https://wa.me/5491138120436?text=Hola!%20Quiero%20m%C3%A1s%20info%20para%20automatizar%20mi%20negocio%20con%20Kepler%20AI" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+    <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.362.694 4.564 1.885 6.415L4 29l7.79-1.845A11.94 11.94 0 0 0 16.001 27C22.628 27 28 21.627 28 15S22.628 3 16.001 3Zm0 21.818a9.77 9.77 0 0 1-4.98-1.363l-.357-.21-4.62 1.094 1.127-4.5-.232-.368A9.78 9.78 0 0 1 5.2 15c0-5.965 4.836-10.8 10.801-10.8 5.964 0 10.8 4.835 10.8 10.8 0 5.964-4.836 10.818-10.8 10.818Zm5.937-8.106c-.325-.163-1.923-.949-2.221-1.058-.298-.109-.515-.163-.732.163-.217.325-.84 1.058-1.03 1.276-.19.217-.38.244-.705.081-.325-.163-1.372-.505-2.614-1.61-.966-.861-1.618-1.924-1.808-2.249-.19-.325-.02-.5.143-.663.146-.146.325-.38.488-.57.163-.19.217-.325.325-.542.108-.217.054-.407-.027-.57-.081-.163-.732-1.762-1.003-2.414-.264-.634-.532-.548-.732-.558l-.624-.011c-.217 0-.57.081-.868.407-.298.325-1.14 1.114-1.14 2.718 0 1.604 1.167 3.153 1.33 3.37.163.217 2.298 3.508 5.566 4.92.778.336 1.385.537 1.858.687.78.248 1.489.213 2.05.129.625-.093 1.923-.786 2.194-1.545.271-.76.271-1.41.19-1.545-.081-.135-.298-.217-.623-.38Z"/></svg>
+  </a>
+
+  <!-- ============================= NAV ============================= -->
+  <header class="nav" data-nav>
+    <div class="container nav-inner">
+      <a href="#main" class="brand-mark">
+        <svg class="brand-orbit" viewBox="0 0 22 22" aria-hidden="true">
+          <circle class="ring" cx="11" cy="11" r="8"/>
+          <g class="orbit-spin"><circle class="dot" cx="11" cy="3" r="2"/></g>
+        </svg>
+        KEPLER AI
+      </a>
+      <nav class="nav-links" aria-label="Navegación principal">
+        <a class="nav-link" href="#demo">El agente</a>
+        <a class="nav-link" href="#como-funciona">Cómo funciona</a>
+        <a class="nav-link" href="#industrias">Casos de uso</a>
+        <a class="nav-link" href="#planes">Planes</a>
+        <a class="nav-link" href="#faq">Preguntas</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="btn btn-primary nav-cta" href="#agendar">Agendar reunión</a>
+        <div class="nav-social">
+          <a href="https://www.instagram.com/kepleragency.ai/" target="_blank" rel="noopener" aria-label="Instagram de Kepler AI">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+          </a>
+          <a href="https://wa.me/5491138120436" target="_blank" rel="noopener" aria-label="WhatsApp de Kepler AI">
+            <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.362.694 4.564 1.885 6.415L4 29l7.79-1.845A11.94 11.94 0 0 0 16.001 27C22.628 27 28 21.627 28 15S22.628 3 16.001 3Zm0 21.818a9.77 9.77 0 0 1-4.98-1.363l-.357-.21-4.62 1.094 1.127-4.5-.232-.368A9.78 9.78 0 0 1 5.2 15c0-5.965 4.836-10.8 10.801-10.8 5.964 0 10.8 4.835 10.8 10.8 0 5.964-4.836 10.818-10.8 10.818Zm5.937-8.106c-.325-.163-1.923-.949-2.221-1.058-.298-.109-.515-.163-.732.163-.217.325-.84 1.058-1.03 1.276-.19.217-.38.244-.705.081-.325-.163-1.372-.505-2.614-1.61-.966-.861-1.618-1.924-1.808-2.249-.19-.325-.02-.5.143-.663.146-.146.325-.38.488-.57.163-.19.217-.325.325-.542.108-.217.054-.407-.027-.57-.081-.163-.732-1.762-1.003-2.414-.264-.634-.532-.548-.732-.558l-.624-.011c-.217 0-.57.081-.868.407-.298.325-1.14 1.114-1.14 2.718 0 1.604 1.167 3.153 1.33 3.37.163.217 2.298 3.508 5.566 4.92.778.336 1.385.537 1.858.687.78.248 1.489.213 2.05.129.625-.093 1.923-.786 2.194-1.545.271-.76.271-1.41.19-1.545-.081-.135-.298-.217-.623-.38Z"/></svg>
+          </a>
+        </div>
+        <button class="nav-burger" data-nav-burger aria-expanded="false" aria-controls="nav-mobile" aria-label="Abrir menú">
+          <span class="nav-burger-lines"><span></span><span></span><span></span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="nav-mobile" id="nav-mobile" data-nav-mobile data-open="false">
+    <nav class="nav-mobile-links" aria-label="Navegación móvil">
+      <a href="#demo">El agente</a>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#industrias">Casos de uso</a>
+      <a href="#planes">Planes</a>
+      <a href="#faq">Preguntas</a>
+      <a class="btn btn-primary" href="#agendar">Agendar reunión</a>
+    </nav>
+  </div>
+
+  <main id="main">
+
+    <!-- ============================= HERO ============================= -->
+    <section class="hero">
+      <div class="hero-gradient" data-mouse-gradient aria-hidden="true"></div>
+      <canvas class="hero-canvas" data-hero-canvas aria-hidden="true"></canvas>
+      <div class="hero-grid-lines" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <p class="kicker">Kepler AI · Automatización comercial con IA</p>
+        <h1 class="hero-title" data-split="words">Tu negocio, en <em>automático.</em></h1>
+        <p class="hero-h3">Cada consulta sin responder es una venta que se pierde.</p>
+        <p class="hero-sub">Creamos asistentes inteligentes y automatizaciones que responden clientes, ejecutan tareas repetitivas e integran tus sistemas para que tu empresa funcione las 24 horas.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-lg" href="https://wa.me/5491138120436?text=Hola%2C%20quiero%20agendar%20una%20llamada%20gratuita%20con%20Kepler%20AI." target="_blank" rel="noopener" data-magnetic data-magnetic-strength="0.2">Agendar reunión gratuita</a>
+          <a class="btn btn-ghost" href="#demo">Ver el agente en acción</a>
+        </div>
+        <div class="hero-trust">
+          <div class="hero-trust-item"><strong>24/7</strong> disponibilidad</div>
+          <div class="hero-trust-item"><strong>WhatsApp</strong> · Instagram · Web</div>
+          <div class="hero-trust-item"><strong>CRM</strong> integrado</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= PROBLEMA ============================= -->
+    <section class="section-pad" id="problema">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="kicker">El problema</p>
+          <h2 class="section-title">¿Te suena familiar?</h2>
+          <p class="section-sub">Cada minuto que pasa sin responder es una oportunidad que se enfría — o que ya está hablando con la competencia.</p>
+        </div>
+        <div class="problem-grid">
+          <div class="problem-card" data-reveal>
+            <span class="problem-card-mark" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 10h8M8 14h5"/><path d="M21 12c0 4.97-4.03 9-9 9-1.5 0-2.9-.36-4.14-1L3 21l1.1-3.86A8.96 8.96 0 0 1 3 12c0-4.97 4.03-9 9-9s9 4.03 9 9Z"/></svg>
+            </span>
+            <p>Contestás siempre las mismas preguntas.</p>
+            <p class="problem-card-detail">Precio, horarios, ubicación — el 80% de los mensajes se repiten.</p>
+          </div>
+          <div class="problem-card" data-reveal>
+            <span class="problem-card-mark" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            </span>
+            <p>Llegan mensajes fuera de horario.</p>
+            <p class="problem-card-detail">De noche o el fin de semana, nadie contesta hasta el próximo turno.</p>
+          </div>
+          <div class="problem-card" data-reveal>
+            <span class="problem-card-mark" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v6h-6"/></svg>
+            </span>
+            <p>Se pierden ventas por demoras.</p>
+            <p class="problem-card-detail">El cliente que espera termina comprando en otro lado.</p>
+          </div>
+          <div class="problem-card" data-reveal>
+            <span class="problem-card-mark" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg>
+            </span>
+            <p>Tu equipo dedica horas a tareas repetitivas.</p>
+            <p class="problem-card-detail">Tiempo que podría usarse en cerrar ventas, no en repetir respuestas.</p>
+          </div>
+          <div class="problem-card" data-reveal>
+            <span class="problem-card-mark" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 4v5"/></svg>
+            </span>
+            <p>Tenés información repartida entre WhatsApp, Instagram, Excel y distintos sistemas.</p>
+            <p class="problem-card-detail">Nada se actualiza solo, y siempre falta cruzar un dato a mano.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= DEMO ============================= -->
+    <section class="section-pad" id="demo">
+      <div class="container">
+        <div class="demo-layout">
+          <div class="demo-text" data-reveal>
+            <p class="kicker">El agente en acción</p>
+            <h2 class="section-title">Así responde Kepler, en segundos.</h2>
+            <p class="section-sub">El mismo agente que ves acá puede entrenarse con la voz, los precios y los procesos de tu propio negocio.</p>
+            <div class="demo-points">
+              <div class="demo-point">
+                <span class="demo-point-mark">01</span>
+                <p><strong>Responde de inmediato,</strong> con el tono de tu marca, a cualquier hora.</p>
+              </div>
+              <div class="demo-point">
+                <span class="demo-point-mark">02</span>
+                <p><strong>Identifica la intención</strong> del cliente y resuelve sus dudas reales.</p>
+              </div>
+              <div class="demo-point">
+                <span class="demo-point-mark">03</span>
+                <p><strong>Agenda la reunión</strong> directo en tu calendario, sin fricción.</p>
+              </div>
+            </div>
+          </div>
+          <div class="demo-phone-wrap" data-reveal>
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="phone-header">
+                  <span class="phone-avatar" aria-hidden="true">
+                    <img src="assets/img/Kepler_logo.webp" alt="" loading="lazy" decoding="async">
+                  </span>
+                  <div class="phone-header-text">
+                    <strong>Kepler AI</strong>
+                    <span>En línea</span>
+                  </div>
+                </div>
+                <div class="phone-body" data-chat-body>
+                  <!-- Static fallback conversation — visible immediately with JS disabled.
+                       main.js re-plays this sequence with typing indicators when GSAP/JS is available. -->
+                  <div class="bubble bubble-user">Hola, vi el anuncio del gimnasio, ¿cuánto sale el pase mensual?</div>
+                  <div class="bubble bubble-agent">¡Hola! El plan mensual tiene un valor de $45.000 e incluye acceso libre y todas las clases grupales.</div>
+                  <div class="bubble bubble-user">¿Tenés alguna promo? Me gustaría probar antes de anotarme</div>
+                  <div class="bubble bubble-agent">Sí, este mes la inscripción es sin cargo. Y tenemos una clase de prueba gratuita, podés venir mañana a las 6pm o el jueves a las 10am. ¿Cuál te queda mejor?</div>
+                  <div class="bubble bubble-user">El jueves a las 10am</div>
+                  <div class="bubble bubble-chip">✓ Reunión agendada · Jueves 10:00 AM</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= COMO FUNCIONA ============================= -->
+    <section class="section-pad" id="como-funciona">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="kicker">Cómo funciona</p>
+          <h2 class="section-title">Un flujo, de principio a fin.</h2>
+          <p class="workflow-tagline">Kepler conecta todas las herramientas que ya usás para que trabajen solas.</p>
+        </div>
+        <div class="workflow-list">
+          <div class="workflow-step" data-reveal>
+            <span class="workflow-num">01</span>
+            <div>
+              <h3>Llega la consulta</h3>
+              <p>Por WhatsApp, Instagram o el formulario de tu sitio web — todo entra al mismo lugar.</p>
+            </div>
+          </div>
+          <div class="workflow-step" data-reveal>
+            <span class="workflow-num">02</span>
+            <div>
+              <h3>El agente responde al instante</h3>
+              <p>Disponible 24/7, con el tono y la información de tu marca.</p>
+            </div>
+          </div>
+          <div class="workflow-step" data-reveal>
+            <span class="workflow-num">03</span>
+            <div>
+              <h3>Califica al cliente</h3>
+              <p>Identifica intención, presupuesto y urgencia antes de pasarlo a tu equipo.</p>
+            </div>
+          </div>
+          <div class="workflow-step" data-reveal>
+            <span class="workflow-num">04</span>
+            <div>
+              <h3>Agenda la reunión</h3>
+              <p>Sincronizado directo con tu calendario — sin ida y vuelta de mensajes.</p>
+            </div>
+          </div>
+          <div class="workflow-step" data-reveal>
+            <span class="workflow-num">05</span>
+            <div>
+              <h3>Se actualiza tu CRM</h3>
+              <p>Todo el historial de la conversación queda registrado, sin carga manual.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= MANUAL VS AUTOMATIZADO ============================= -->
+    <section class="section-pad" id="comparacion">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="kicker">El cambio</p>
+          <h2 class="section-title">Lo que cambia cuando el agente responde por vos.</h2>
+        </div>
+        <div class="compare-grid">
+          <div class="compare-vs" aria-hidden="true"><span>VS</span></div>
+          <div class="compare-card is-manual" data-reveal>
+            <div class="compare-card-head">
+              <h3>Flujo manual</h3>
+              <span class="compare-tag">Sin IA</span>
+            </div>
+            <div class="compare-row">
+              <span class="compare-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg></span>
+              <div class="compare-row-text"><span class="compare-row-label">Primera respuesta</span><span class="compare-row-value">Horas, si el equipo está disponible</span></div>
+            </div>
+            <div class="compare-row">
+              <span class="compare-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg></span>
+              <div class="compare-row-text"><span class="compare-row-label">Disponibilidad</span><span class="compare-row-value">Horario de oficina</span></div>
+            </div>
+            <div class="compare-row">
+              <span class="compare-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg></span>
+              <div class="compare-row-text"><span class="compare-row-label">Calificación</span><span class="compare-row-value">Manual e inconsistente</span></div>
+            </div>
+            <div class="compare-row">
+              <span class="compare-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg></span>
+              <div class="compare-row-text"><span class="compare-row-label">Seguimiento</span><span class="compare-row-value">Depende de quién se acuerde</span></div>
+            </div>
+            <div class="compare-row">
+              <span class="compare-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg></span>
+              <div class="compare-row-text"><span class="compare-row-label">Para escalar</span><span class="compare-row-value">Hay que contratar más gente</span></div>
+            </div>
+          </div>
+          <div class="compare-card is-auto" data-reveal>
+            <div class="compare-card-head">
+              <h3>Con Kepler AI</h3>
+              <span class="compare-tag">Automatizado</span>
+            </div>
+            <div class="compare-row">
+              <span class="compare-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></span>
+              <div class="compare-row-text"><span class="compare-row-label">Primera respuesta</span><span class="compare-row-value">Segundos, a cualquier hora</span></div>
+            </div>
+            <div class="compare-row">
+              <span class="compare-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></span>
+              <div class="compare-row-text"><span class="compare-row-label">Disponibilidad</span><span class="compare-row-value">24/7, los 365 días</span></div>
+            </div>
+            <div class="compare-row">
+              <span class="compare-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></span>
+              <div class="compare-row-text"><span class="compare-row-label">Calificación</span><span class="compare-row-value">Automática, con el mismo criterio siempre</span></div>
+            </div>
+            <div class="compare-row">
+              <span class="compare-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></span>
+              <div class="compare-row-text"><span class="compare-row-label">Seguimiento</span><span class="compare-row-value">Automático, no se pierde ninguna conversación</span></div>
+            </div>
+            <div class="compare-row">
+              <span class="compare-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/></svg></span>
+              <div class="compare-row-text"><span class="compare-row-label">Para escalar</span><span class="compare-row-value">El mismo agente atiende 10 o 10.000 chats</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= PLANES DISPONIBLES ============================= -->
+    <section class="section-pad" id="planes">
+      <div class="container">
+        <div class="section-head is-center" data-reveal>
+          <p class="kicker">Planes disponibles</p>
+          <h2 class="section-title">Elegí el nivel de automatización que tu negocio necesita.</h2>
+          <p class="section-sub">Empezá con lo esencial y sumá funciones a medida que tu negocio lo pida.</p>
+        </div>
+        <div class="pricing-grid">
+          <div class="pricing-card" data-reveal>
+            <div class="pricing-name-row">
+              <span class="pricing-icon pricing-icon-blue" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1"/><circle cx="9" cy="14" r="1" fill="currentColor" stroke="none"/><circle cx="15" cy="14" r="1" fill="currentColor" stroke="none"/><path d="M9 17.5h6"/></svg>
+              </span>
+              <h3 class="pricing-name">Básico</h3>
+            </div>
+            <ul class="pricing-features">
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Asistente de IA personalizado</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Respuestas automáticas 24/7</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Integración con WhatsApp e Instagram</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Preguntas frecuentes automatizadas</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Derivación a un humano</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Contactos ilimitados</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Integración con tu CRM</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Reconocimiento de audio</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Mantenimiento del sistema</li>
+            </ul>
+            <a class="btn btn-ghost btn-block" href="https://wa.me/5491138120436?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20sobre%20el%20plan%20B%C3%A1sico%20de%20Kepler%20AI." target="_blank" rel="noopener">Elegir Básico</a>
+          </div>
+
+          <div class="pricing-card is-featured" data-reveal>
+            <div class="pricing-name-row">
+              <span class="pricing-icon pricing-icon-violet" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg>
+              </span>
+              <h3 class="pricing-name">Intermedio</h3>
+            </div>
+            <ul class="pricing-features">
+              <li class="is-inherited"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Todo lo del plan Básico</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Calificación de leads</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Recordatorios automáticos a clientes</li>
+            </ul>
+            <a class="btn btn-primary btn-block" href="https://wa.me/5491138120436?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20sobre%20el%20plan%20Intermedio%20de%20Kepler%20AI." target="_blank" rel="noopener">Elegir Intermedio</a>
+          </div>
+
+          <div class="pricing-card" data-reveal>
+            <div class="pricing-name-row">
+              <span class="pricing-icon pricing-icon-orange" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2c2.5 2 4 5.5 4 9 0 2-.5 3.5-1 4.5l-3 3-3-3c-.5-1-1-2.5-1-4.5 0-3.5 1.5-7 4-9Z"/><circle cx="12" cy="9" r="1.5"/><path d="M9 15l-3 1 1-3M15 15l3 1-1-3M10 19l2 2 2-2"/></svg>
+              </span>
+              <h3 class="pricing-name">Full</h3>
+            </div>
+            <ul class="pricing-features">
+              <li class="is-inherited"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Todo lo del plan Intermedio</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Secuencias post-consulta / post-compra</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Atención prioritaria</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Lectura automática de comprobantes</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Gestor de turnos</li>
+              <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Reportes mensuales avanzados</li>
+            </ul>
+            <a class="btn btn-ghost btn-block" href="https://wa.me/5491138120436?text=Hola%2C%20quiero%20saber%20m%C3%A1s%20sobre%20el%20plan%20Full%20de%20Kepler%20AI." target="_blank" rel="noopener">Elegir Full</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= RESULTADOS / METRICAS ============================= -->
+    <section class="section-pad" id="resultados">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="kicker">Resultados</p>
+          <h2 class="section-title">El impacto se mide en conversaciones que sí llegan a reunión.</h2>
+        </div>
+        <div class="metrics-grid">
+          <div class="metric-card" data-reveal>
+            <div class="metric-value" data-count-to="24" data-count-suffix="/7">24/7</div>
+            <div class="metric-label">Disponibilidad, sin turnos ni descansos</div>
+          </div>
+          <div class="metric-card" data-reveal>
+            <div class="metric-value"><span data-count-to="5" data-count-prefix="&lt;">&lt;5</span>s</div>
+            <div class="metric-label">Tiempo de primera respuesta</div>
+          </div>
+          <div class="metric-card" data-reveal>
+            <div class="metric-value"><span data-count-to="3" data-count-prefix="+">+3</span>x</div>
+            <div class="metric-label">Reuniones agendadas frente a un flujo manual</div>
+          </div>
+          <div class="metric-card" data-reveal>
+            <div class="metric-value"><span data-count-to="70" data-count-prefix="-">-70</span>%</div>
+            <div class="metric-label">Menos tiempo de tu equipo en tareas repetitivas</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= INDUSTRIAS ============================= -->
+    <section class="section-pad" id="industrias">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="kicker">Para quién</p>
+          <h2 class="section-title">Diseñado para negocios con alto volumen de consultas.</h2>
+        </div>
+        <div class="industries-grid">
+          <article class="card card-blue" data-reveal>
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18l-1.5 12h-15L3 6Z"/><path d="M8 10V6a4 4 0 0 1 8 0v4"/></svg>
+            </span>
+            <h3>E-commerce</h3>
+            <p>Resuelve dudas de producto, automatiza el seguimiento de órdenes y guía la compra sin agregar personal.</p>
+          </article>
+          <article class="card card-violet" data-reveal>
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 21V9l8-6 8 6v12"/><path d="M9 21v-6h6v6"/></svg>
+            </span>
+            <h3>Inmobiliarias</h3>
+            <p>Califica interesados, agenda visitas y filtra a quienes de verdad están listos para avanzar.</p>
+          </article>
+          <article class="card card-pink" data-reveal>
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 17h14l-1.2-5.2a2 2 0 0 0-1.94-1.55H8.14a2 2 0 0 0-1.94 1.55L5 17Z"/><path d="M7 10l1.2-3.4A2 2 0 0 1 10.1 5.2h3.8a2 2 0 0 1 1.9 1.4L17 10"/><circle cx="7.5" cy="17" r="1.6"/><circle cx="16.5" cy="17" r="1.6"/></svg>
+            </span>
+            <h3>Concesionarias</h3>
+            <p>Responde sobre modelos y financiamiento, agenda test drives y prepara al asesor con contexto.</p>
+          </article>
+          <article class="card card-orange" data-reveal>
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.35-9.5-8.5C.8 8.6 2.5 5 6 5c2 0 3.3 1.1 4 2 .7-.9 2-2 4-2 3.5 0 5.2 3.6 3.5 7.5C19 16.65 12 21 12 21Z"/></svg>
+            </span>
+            <h3>Clínicas</h3>
+            <p>Agenda turnos, resuelve dudas frecuentes y reduce las llamadas que interrumpen la operación.</p>
+          </article>
+          <article class="card card-violet" data-reveal>
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 7v10M2 9v6M22 9v6M18 7v10M6 12h12"/></svg>
+            </span>
+            <h3>Gimnasios</h3>
+            <p>Atiende consultas de planes, agenda clases de prueba y da seguimiento a quienes dudan en anotarse.</p>
+          </article>
+          <article class="card card-pink" data-reveal>
+            <span class="card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>
+            </span>
+            <h3>Y tu negocio</h3>
+            <p>Cualquier empresa con alto volumen de consultas puede automatizar su atención con Kepler AI.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= BENEFICIOS ============================= -->
+    <section class="section-pad" id="beneficios">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="kicker">Por qué Kepler AI</p>
+          <h2 class="section-title">Todo lo que un vendedor haría, sin los límites de un horario.</h2>
+        </div>
+        <div class="benefits-grid">
+          <div class="benefit" data-reveal>
+            <span class="benefit-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            </span>
+            <div><h3>Disponibilidad total</h3><p>Responde de madrugada, fin de semana o feriado, igual que un día laboral cualquiera.</p></div>
+          </div>
+          <div class="benefit" data-reveal>
+            <span class="benefit-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg>
+            </span>
+            <div><h3>Respuesta instantánea</h3><p>Nadie espera más de unos segundos por una respuesta, sin importar el volumen.</p></div>
+          </div>
+          <div class="benefit" data-reveal>
+            <span class="benefit-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>
+            </span>
+            <div><h3>Calificación automática</h3><p>Distingue quién está listo para comprar de quien solo está preguntando.</p></div>
+          </div>
+          <div class="benefit" data-reveal>
+            <span class="benefit-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 4v5"/></svg>
+            </span>
+            <div><h3>Integración con tu CRM</h3><p>La información llega donde ya trabajás, sin carga manual ni planillas.</p></div>
+          </div>
+          <div class="benefit" data-reveal>
+            <span class="benefit-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 15c3-3 5-3 8 0s5 3 8 0M4 9c3-3 5-3 8 0s5 3 8 0"/></svg>
+            </span>
+            <div><h3>Tono de marca</h3><p>El agente habla como tu negocio, no como un bot genérico y frío.</p></div>
+          </div>
+          <div class="benefit" data-reveal>
+            <span class="benefit-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21V3h18v18"/><path d="M8 17v-5M13 17V9M18 17v-8"/></svg>
+            </span>
+            <div><h3>Escala sin fricción</h3><p>Atiende 5 o 5.000 conversaciones a la vez, con la misma calidad de respuesta.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= FAQ ============================= -->
+    <section class="section-pad" id="faq">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="kicker">Preguntas frecuentes</p>
+          <h2 class="section-title">Lo que suelen preguntarnos antes de empezar.</h2>
+        </div>
+        <div class="faq-list" data-faq>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" aria-expanded="false">
+              <span>¿Qué tipo de empresas pueden automatizar procesos con Kepler AI?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner"><p>Trabajamos con empresas de distintos tamaños e industrias. Si tu negocio recibe consultas repetitivas, realiza tareas manuales o utiliza varias herramientas que no están conectadas entre sí, probablemente exista una oportunidad para automatizar procesos y ahorrar tiempo.</p></div></div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" aria-expanded="false">
+              <span>¿Qué es exactamente un agente de IA de Kepler?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner"><p>Un sistema entrenado con la información de tu negocio que conversa por WhatsApp, Instagram o tu sitio web, responde preguntas, califica al cliente y agenda reuniones automáticamente.</p></div></div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" aria-expanded="false">
+              <span>¿Qué procesos pueden automatizarse?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner">
+              <p>Algunos ejemplos son:</p>
+              <ul>
+                <li>Atención por WhatsApp.</li>
+                <li>Respuesta a consultas frecuentes.</li>
+                <li>Calificación automática de clientes.</li>
+                <li>Agendado de turnos o reuniones.</li>
+                <li>Envío de presupuestos.</li>
+                <li>Seguimiento de clientes.</li>
+                <li>Actualización de CRM.</li>
+                <li>Facturación.</li>
+                <li>Recordatorios automáticos.</li>
+                <li>Reportes internos.</li>
+                <li>Integraciones entre distintos sistemas.</li>
+              </ul>
+              <p>Cada solución se diseña según las necesidades de cada empresa.</p>
+            </div></div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" aria-expanded="false">
+              <span>¿Solo funciona en WhatsApp?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner"><p>No. Se conecta a WhatsApp, Instagram y el chat de tu sitio web, todo desde un mismo cerebro y con el mismo criterio.</p></div></div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" aria-expanded="false">
+              <span>¿Necesito cambiar el sistema que ya utilizo?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner"><p>No. En la mayoría de los casos trabajamos sobre las herramientas que tu empresa ya utiliza e integramos los distintos sistemas para que compartan información automáticamente.</p></div></div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" aria-expanded="false">
+              <span>¿Funciona con el CRM que ya uso?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner"><p>Sí. Nos integramos con los CRMs y herramientas más comunes del mercado; si usás algo particular, lo evaluamos directo en la reunión inicial.</p></div></div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" aria-expanded="false">
+              <span>¿Cómo es el proceso de trabajo?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner"><p>Primero analizamos los procesos actuales de tu empresa. Luego diseñamos la automatización, la implementamos, realizamos pruebas y finalmente acompañamos el lanzamiento para asegurarnos de que todo funcione correctamente.</p></div></div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" aria-expanded="false">
+              <span>¿Cuánto tiempo toma implementarlo?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner"><p>Depende del alcance, pero la mayoría de los proyectos quedan operativos en pocas semanas, incluyendo la integración con tus canales y tu CRM.</p></div></div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" aria-expanded="false">
+              <span>¿Cómo sé si mi empresa realmente necesita automatización?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner"><p>Durante una primera reunión sin compromiso, analizamos tus procesos actuales y detectamos oportunidades de mejora. Si creemos que una automatización no va a aportar valor, te lo decimos con total transparencia.</p></div></div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" aria-expanded="false">
+              <span>¿Mi equipo necesita aprender algo nuevo?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner"><p>No. El agente opera solo; tu equipo simplemente recibe clientes ya calificados y reuniones ya agendadas en su calendario.</p></div></div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" aria-expanded="false">
+              <span>¿Qué pasa si el agente no puede resolver algo?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner"><p>Escala la conversación a una persona de tu equipo con todo el contexto ya reunido, sin que el cliente tenga que repetir nada.</p></div></div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" aria-expanded="false">
+              <span>¿Qué pasa si necesito hacer cambios después?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner"><p>Las automatizaciones pueden evolucionar junto con tu negocio. Es posible agregar nuevas funciones, modificar procesos existentes o incorporar nuevas integraciones cuando lo necesites.</p></div></div>
+          </div>
+
+          <div class="faq-item" data-open="false">
+            <button class="faq-question" aria-expanded="false">
+              <span>¿Ofrecen soporte una vez implementada la solución?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner"><p>Sí. Acompañamos a nuestros clientes después de la implementación para realizar ajustes, resolver dudas y asegurar que la automatización siga funcionando correctamente a medida que el negocio evoluciona.</p></div></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= CTA FINAL ============================= -->
+    <section class="section-pad" id="agendar">
+      <div class="container">
+        <div class="cta-section">
+          <div class="cta-layout">
+            <div class="cta-text" data-reveal>
+              <p class="kicker">Empecemos</p>
+              <h2 class="section-title">Agendá una reunión y te mostramos el agente trabajando con tu propio caso.</h2>
+              <p>Sin compromiso. En 30 minutos vemos tu operación actual y cómo se vería con un agente de IA respondiendo por vos.</p>
+              <ul class="cta-mini-trust">
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Diagnóstico gratuito de tu flujo actual</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Propuesta a medida de tu industria</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12.5l5 5L20 6"/></svg> Sin permanencia forzada</li>
+              </ul>
+            </div>
+            <div data-reveal style="position: relative;">
+              <form class="cta-form" data-contact-form novalidate>
+                <div class="field">
+                  <input type="text" name="name" id="f-name" required placeholder=" " autocomplete="name">
+                  <label for="f-name">Nombre</label>
+                </div>
+                <div class="field">
+                  <input type="text" name="company" id="f-company" required placeholder=" " autocomplete="organization">
+                  <label for="f-company">Empresa</label>
+                </div>
+                <div class="field">
+                  <input type="email" name="email" id="f-email" required placeholder=" " autocomplete="email">
+                  <label for="f-email">Email</label>
+                </div>
+                <div class="field">
+                  <input type="tel" name="phone" id="f-phone" required placeholder=" " autocomplete="tel">
+                  <label for="f-phone">Teléfono</label>
+                </div>
+                <div class="field">
+                  <textarea name="message" id="f-message" placeholder=" "></textarea>
+                  <label for="f-message">Contanos sobre tu negocio (opcional)</label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block cta-submit">
+                  <span class="cta-submit-label">Agendar reunión gratuita</span>
+                  <span class="cta-submit-spinner" aria-hidden="true"></span>
+                </button>
+              </form>
+              <div class="cta-success" data-contact-success aria-hidden="true">
+                <h3>Recibido. Hablamos pronto.</h3>
+                <p data-contact-success-msg></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================= FOOTER ============================= -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#main" class="brand-mark">
+            <svg class="brand-orbit" viewBox="0 0 22 22" aria-hidden="true">
+              <circle class="ring" cx="11" cy="11" r="8"/>
+              <circle class="dot" cx="11" cy="3" r="2"/>
+            </svg>
+            KEPLER AI
+          </a>
+          <p>Asistentes de inteligencia artificial para automatizar ventas y atención al cliente.</p>
+          <div class="footer-social">
+            <a href="https://www.instagram.com/kepleragency.ai/" target="_blank" rel="noopener" aria-label="Instagram de Kepler AI">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+            </a>
+            <a href="https://wa.me/5491138120436" target="_blank" rel="noopener" aria-label="WhatsApp de Kepler AI">
+              <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.362.694 4.564 1.885 6.415L4 29l7.79-1.845A11.94 11.94 0 0 0 16.001 27C22.628 27 28 21.627 28 15S22.628 3 16.001 3Zm0 21.818a9.77 9.77 0 0 1-4.98-1.363l-.357-.21-4.62 1.094 1.127-4.5-.232-.368A9.78 9.78 0 0 1 5.2 15c0-5.965 4.836-10.8 10.801-10.8 5.964 0 10.8 4.835 10.8 10.8 0 5.964-4.836 10.818-10.8 10.818Zm5.937-8.106c-.325-.163-1.923-.949-2.221-1.058-.298-.109-.515-.163-.732.163-.217.325-.84 1.058-1.03 1.276-.19.217-.38.244-.705.081-.325-.163-1.372-.505-2.614-1.61-.966-.861-1.618-1.924-1.808-2.249-.19-.325-.02-.5.143-.663.146-.146.325-.38.488-.57.163-.19.217-.325.325-.542.108-.217.054-.407-.027-.57-.081-.163-.732-1.762-1.003-2.414-.264-.634-.532-.548-.732-.558l-.624-.011c-.217 0-.57.081-.868.407-.298.325-1.14 1.114-1.14 2.718 0 1.604 1.167 3.153 1.33 3.37.163.217 2.298 3.508 5.566 4.92.778.336 1.385.537 1.858.687.78.248 1.489.213 2.05.129.625-.093 1.923-.786 2.194-1.545.271-.76.271-1.41.19-1.545-.081-.135-.298-.217-.623-.38Z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Producto</h4>
+            <a href="#como-funciona">Cómo funciona</a>
+            <a href="#industrias">Casos de uso</a>
+            <a href="#planes">Planes</a>
+            <a href="#faq">Preguntas</a>
+          </div>
+          <div class="footer-col">
+            <h4>Contacto</h4>
+            <span>kepleraiagency@gmail.com</span>
+            <a href="https://wa.me/5491138120436" target="_blank" rel="noopener">WhatsApp</a>
+            <a href="#agendar">Agendar reunión gratuita</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Kepler AI. Todos los derechos reservados.</span>
+        <span>Automatización comercial con inteligencia artificial.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- libs first (defer keeps order) -->
+  <script defer src="lib/gsap.min.js"></script>
+  <script defer src="lib/ScrollTrigger.min.js"></script>
+
+  <!-- brand data -->
+  <script defer src="lib/manifest.js"></script>
+
+  <!-- entry point -->
+  <script defer src="main.js?v=20260706c"></script>
+</body>
+</html>
