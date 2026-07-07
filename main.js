@@ -524,7 +524,7 @@
           if (!result.success) throw new Error(result.message || "submit failed");
 
           var firstName = (form.elements.name.value || "").trim().split(/\s+/)[0] || "Hola";
-          if (msg) msg.textContent = firstName + ", hemos recibido tu solicitud. Te escribimos en breve para coordinar la reunión.";
+          if (msg) msg.textContent = firstName + ", recibimos tu solicitud. Te vamos a escribir en breve para coordinar la reunión.";
           form.classList.remove("is-sending");
           form.classList.add("is-sent");
           success.setAttribute("aria-hidden", "false");
