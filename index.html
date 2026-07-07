@@ -663,6 +663,10 @@
             </div>
             <div data-reveal style="position: relative;">
               <form class="cta-form" data-contact-form novalidate>
+                <input type="hidden" name="access_key" value="226bfd1d-5069-4c24-b8c9-4e750b8b92ae">
+                <input type="hidden" name="subject" value="Nueva solicitud de reunión — Kepler AI">
+                <input type="hidden" name="from_name" value="Formulario web Kepler AI">
+                <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
                 <div class="field">
                   <input type="text" name="name" id="f-name" required placeholder=" " autocomplete="name">
                   <label for="f-name">Nombre</label>
@@ -687,6 +691,7 @@
                   <span class="cta-submit-label">Agendar reunión gratuita</span>
                   <span class="cta-submit-spinner" aria-hidden="true"></span>
                 </button>
+                <p class="cta-form-error" data-contact-error role="alert" hidden>No pudimos enviar tu solicitud. Probá de nuevo o escribinos por WhatsApp.</p>
               </form>
               <div class="cta-success" data-contact-success aria-hidden="true">
                 <h3>Recibido. Hablamos pronto.</h3>

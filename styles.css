@@ -900,6 +900,8 @@ section { position: relative; }
 .cta-success h3 { font-size: 1.4rem; margin-bottom: 0.6rem; }
 .cta-success p { color: var(--ink-mute); }
 
+.cta-form-error { color: var(--danger); font-size: 0.85rem; margin-top: -0.3rem; }
+
 .cta-text .section-title { margin-bottom: 1rem; }
 .cta-text p { color: var(--ink-mute); margin-bottom: 1.6rem; }
 .cta-mini-trust { display: flex; flex-direction: column; gap: 0.7rem; }

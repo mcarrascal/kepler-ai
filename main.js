@@ -494,7 +494,7 @@
   }
 
   /* ---------------------------------------------------------------
-     Contact form — realistic simulated submit
+     Contact form — submits to Web3Forms so leads reach our inbox
   --------------------------------------------------------------- */
   function initContactForm() {
     var form = $("[data-contact-form]");
@@ -502,23 +502,40 @@
     if (!form || !success) return;
     var submitBtn = $('[type="submit"]', form);
     var msg = $("[data-contact-success-msg]");
+    var errorEl = $("[data-contact-error]");
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (form.classList.contains("is-sending")) return;
       if (!form.reportValidity()) return;
+      if (form.elements.botcheck && form.elements.botcheck.checked) return;
 
       form.classList.add("is-sending");
       submitBtn.disabled = true;
+      if (errorEl) errorEl.hidden = true;
 
-      setTimeout(function () {
-        var firstName = (form.elements.name.value || "").trim().split(/\s+/)[0] || "Hola";
-        if (msg) msg.textContent = firstName + ", hemos recibido tu solicitud. Te escribimos en breve para coordinar la reunión.";
-        form.classList.remove("is-sending");
-        form.classList.add("is-sent");
-        success.setAttribute("aria-hidden", "false");
-        success.classList.add("is-visible");
-      }, 700 + Math.random() * 500);
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: new FormData(form)
+      })
+        .then(function (res) { return res.json(); })
+        .then(function (result) {
+          if (!result.success) throw new Error(result.message || "submit failed");
+
+          var firstName = (form.elements.name.value || "").trim().split(/\s+/)[0] || "Hola";
+          if (msg) msg.textContent = firstName + ", hemos recibido tu solicitud. Te escribimos en breve para coordinar la reunión.";
+          form.classList.remove("is-sending");
+          form.classList.add("is-sent");
+          success.setAttribute("aria-hidden", "false");
+          success.classList.add("is-visible");
+        })
+        .catch(function (err) {
+          console.warn("[initContactForm] submit failed:", err);
+          form.classList.remove("is-sending");
+          submitBtn.disabled = false;
+          if (errorEl) errorEl.hidden = false;
+        });
     });
   }
 
