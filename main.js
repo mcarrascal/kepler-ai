@@ -7,11 +7,6 @@
 
   var $ = function (sel, scope) { return (scope || document).querySelector(sel); };
   var $$ = function (sel, scope) { return Array.prototype.slice.call((scope || document).querySelectorAll(sel)); };
-  var escHTML = function (s) {
-    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
-    });
-  };
   function safe(fn, name) {
     try { fn(); } catch (e) { console.warn("[" + name + "] failed:", e); }
   }
@@ -362,21 +357,29 @@
   --------------------------------------------------------------- */
   function splitWords(el) {
     el.setAttribute("aria-label", el.textContent.trim().replace(/\s+/g, " "));
-    var wrap = function (text) {
-      return text.split(/(\s+)/).map(function (w) {
-        return /^\s+$/.test(w) ? w : '<span class="split-word" aria-hidden="true">' + escHTML(w) + "</span>";
-      }).join("");
+    var wrapInto = function (parent, text) {
+      text.split(/(\s+)/).forEach(function (w) {
+        if (!w) return;
+        if (/^\s+$/.test(w)) { parent.appendChild(document.createTextNode(w)); return; }
+        var span = document.createElement("span");
+        span.className = "split-word";
+        span.setAttribute("aria-hidden", "true");
+        span.textContent = w;
+        parent.appendChild(span);
+      });
     };
-    var html = Array.prototype.map.call(el.childNodes, function (node) {
-      if (node.nodeType === 3) return wrap(node.textContent);
-      if (node.nodeName === "BR") return "<br>";
+    var frag = document.createDocumentFragment();
+    Array.prototype.forEach.call(el.childNodes, function (node) {
+      if (node.nodeType === 3) { wrapInto(frag, node.textContent); return; }
+      if (node.nodeName === "BR") { frag.appendChild(document.createElement("br")); return; }
       if (node.nodeType === 1) {
-        var tag = node.tagName.toLowerCase();
-        return "<" + tag + ">" + wrap(node.textContent) + "</" + tag + ">";
+        var clone = document.createElement(node.tagName.toLowerCase());
+        wrapInto(clone, node.textContent);
+        frag.appendChild(clone);
       }
-      return "";
-    }).join("");
-    el.innerHTML = html;
+    });
+    el.textContent = "";
+    el.appendChild(frag);
     return $$(".split-word", el);
   }
 
@@ -456,7 +459,7 @@
 
     var typing = document.createElement("div");
     typing.className = "typing-indicator";
-    typing.innerHTML = "<span></span><span></span><span></span>";
+    for (var d = 0; d < 3; d++) typing.appendChild(document.createElement("span"));
     body.appendChild(typing);
 
     var played = false;

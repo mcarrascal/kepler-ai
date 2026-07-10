@@ -57,9 +57,14 @@
     Header set Cache-Control "public, max-age=2592000"
   </FilesMatch>
 
-  # Minimal security headers
+  # Security headers (kept in sync with worker.js for the Workers deploy)
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "DENY"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+  # HSTS — only enable once the domain serves HTTPS correctly (it does on Cloudflare)
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 </IfModule>
 
 # ----- Correct MIME types (some shared hosts default wrong) -----
