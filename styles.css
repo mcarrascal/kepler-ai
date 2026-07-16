@@ -414,6 +414,10 @@ section { position: relative; }
 .demo-point p { color: var(--ink-mute); font-size: 0.96rem; }
 .demo-point strong { color: var(--ink); }
 
+.demo-live-cta { margin-top: 2.2rem; }
+.demo-live-cta svg { width: 22px; height: 22px; }
+@media (max-width: 640px) { .demo-live-cta { width: 100%; } }
+
 .phone {
   width: min(340px, 84vw);
   border-radius: 34px;
@@ -462,7 +466,7 @@ section { position: relative; }
   color: var(--wa-text);
   box-shadow: 0 1px 1px rgba(0,0,0,0.3);
   opacity: 0; transform: translateY(10px);
-  animation: bubbleIn .5s var(--ease-soft) forwards;
+  animation: bubbleIn .65s var(--ease-soft) forwards;
 }
 .bubble-user {
   align-self: flex-start;
@@ -497,7 +501,7 @@ section { position: relative; }
 .typing-indicator.is-visible { opacity: 1; }
 .typing-indicator span {
   width: 5px; height: 5px; border-radius: 50%; background: rgba(233,237,239,0.7);
-  animation: typingBounce 1s ease-in-out infinite;
+  animation: typingBounce 1.4s ease-in-out infinite;
 }
 .typing-indicator span:nth-child(2) { animation-delay: .15s; }
 .typing-indicator span:nth-child(3) { animation-delay: .3s; }
