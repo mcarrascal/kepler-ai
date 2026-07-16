@@ -427,7 +427,7 @@
     function play() {
       if (played) return;
       played = true;
-      var delay = 300;
+      var delay = 450;
       script.forEach(function (turn, i) {
         var isAgent = turn.from === "agent";
         var showTyping = isAgent;
@@ -437,7 +437,7 @@
             body.insertBefore(typing, null);
             body.scrollTop = body.scrollHeight;
           }, delay);
-          delay += reduced ? 80 : 650;
+          delay += reduced ? 80 : 1050;
         }
         setTimeout(function () {
           typing.classList.remove("is-visible");
@@ -447,7 +447,7 @@
           body.insertBefore(div, typing);
           body.scrollTop = body.scrollHeight;
         }, delay);
-        delay += reduced ? 90 : (turn.from === "chip" ? 500 : 900);
+        delay += reduced ? 90 : (turn.from === "chip" ? 800 : 1450);
       });
     }
 
