@@ -1,5 +1,5 @@
 {
-  "name": "kepler",
+  "name": "kepler-ai",
   "main": "worker.js",
   "compatibility_date": "2026-07-07",
   "assets": {
